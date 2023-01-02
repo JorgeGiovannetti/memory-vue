@@ -56,16 +56,19 @@ export default defineComponent({
       currCard: null as CardData | null,
       turns: 0,
       cardsLeft: cardset.length * 2,
+      isWaiting: false,
     };
   },
   methods: {
     reset() {
-      this.cards = shuffle(this.cards.map((card) => (card.show = false)));
+      this.cards = shuffle(
+        this.cards.map((card) => ({ ...card, show: false }))
+      );
       this.turns = 0;
       this.cardsLeft = cardset.length * 2;
     },
     showCard(card: CardData) {
-      if (card.show) {
+      if (card.show || this.isWaiting) {
         return;
       }
 
@@ -80,12 +83,21 @@ export default defineComponent({
 
       if (this.currCard.value === card.value) {
         this.cardsLeft -= 2;
+        this.currCard = null;
       } else {
-        this.currCard.show = false;
-        card.show = false;
-      }
+        // Block interactivity to allow user to see incorrect match before flipping
+        this.isWaiting = true;
+        setTimeout(() => {
+          if (this.currCard) {
+            this.currCard.show = false;
+          }
+          card.show = false;
+          this.currCard = null;
 
-      this.currCard = null;
+          // Unblock interactivity
+          this.isWaiting = false;
+        }, 1000);
+      }
     },
   },
 });
