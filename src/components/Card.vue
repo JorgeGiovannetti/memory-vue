@@ -1,16 +1,16 @@
 <template>
   <div
-    class="bg-indigo-500 hover:bg-indigo-600 dark:hover:bg-indigo-400 rounded-lg shadow-lg justify-center items-center aspect-square flex"
+    class="bg-indigo-500 hover:bg-indigo-600 ease-out duration-100 hover:scale-110 dark:hover:bg-indigo-400 rounded-lg shadow-lg justify-center items-center aspect-square flex"
   >
-    <img
-      v-if="data.type === 'image'"
-      class="rounded-t-lg"
-      :src="imageURL(data.value)"
-      alt=""
-    />
-    <div v-if="data.type === 'label'" class="p-6">
-      <h5 class="dark:text-white text-xl font-medium mb-2">{{ data.value }}</h5>
+    <div v-if="data.show === true">
+      <img v-if="data.type === 'image'" :src="imageURL(data.img_path)" alt="" />
+      <div v-if="data.type === 'label'" class="p-6">
+        <h5 class="dark:text-white text-xl font-medium mb-2">
+          {{ data.value }}
+        </h5>
+      </div>
     </div>
+    <div v-else class="p-6"></div>
   </div>
 </template>
 

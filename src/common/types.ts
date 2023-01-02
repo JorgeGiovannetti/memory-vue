@@ -1,3 +1,6 @@
 export interface CardData {
-    value: string; type: 'label' | 'image'
-};
+  value: string;
+  img_path: string;
+  type: "label" | "image";
+  show: boolean;
+}
